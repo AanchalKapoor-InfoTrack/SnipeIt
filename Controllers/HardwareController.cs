@@ -1,30 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using SnipeIt.Models;
 using SnipeIt.Services;
+using SnipeIt.Models;
+using System.Threading.Tasks;
 
 namespace SnipeIt.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class HardwareController : ControllerBase
     { 
-        private readonly ILogger<HardwareController> _logger;
-        private readonly IHardwareService _service;
+        private readonly IHardwareService _hardwareService;
 
-        public HardwareController(
-            ILogger<HardwareController> logger,
-            IHardwareService service
-            )
+        public HardwareController(IHardwareService hardwareService)
         {
-            _logger = logger;
-            _service = service;
+            _hardwareService = hardwareService;
         }
 
-        [HttpGet]
-        public HardwareAsset Get(int id)
+        // GET: /api/hardware/1758
+        [HttpGet("{id}")]
+        public Task<HardwareAsset> Get([FromRoute] int id)
         {
-            return _service.GetHardware(id);
+            return _hardwareService.GetHardware(id);
         }
     }
 }
